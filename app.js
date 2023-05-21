@@ -1,6 +1,7 @@
 document.getElementById('add-button').addEventListener('click', function() {
   var value = document.getElementById('todo-input').value;
   if (value) addTodo(value);
+  document.getElementById('todo-input').value = '';
 });
 
 function addTodo(text) {
@@ -8,11 +9,10 @@ function addTodo(text) {
 
   var item = document.createElement('li');
 
-  var input = document.createElement('input');
-  input.type = 'text';
-  input.disabled = true;
+  var input = document.createElement('textarea');
   input.value = text;
   input.classList.add('item_input');
+  input.disabled = true;
   item.appendChild(input);
 
   var buttons = document.createElement('div');
@@ -24,7 +24,16 @@ function addTodo(text) {
 
   var edit = document.createElement('button');
   edit.innerText = 'Edit';
-  edit.addEventListener('click', editTodo);
+  edit.addEventListener('click', function() {
+    if(input.disabled == true){
+      input.disabled = !input.disabled;
+      edit.innerText = 'Save';
+    }
+    else{
+      input.disabled = !input.disabled;
+      edit.innerText = 'Edit';
+    }
+  });
   buttons.appendChild(edit);
 
   item.appendChild(buttons);
@@ -35,15 +44,5 @@ function addTodo(text) {
 function removeTodo() {
   var item = this.parentNode.parentNode;
   var parent = item.parentNode;
-
   parent.removeChild(item);
 }
-
-function editTodo() {
-  var item = this.parentNode.parentNode;
-  var input = item.firstChild;
-  input.disabled = !input.disabled;
-  
-  this.innerText = input.disabled ? 'Edit' : 'Save';
-}
-
