@@ -27,3 +27,4 @@ function removeTodo() {
 
   parent.removeChild(item);
 }
+
